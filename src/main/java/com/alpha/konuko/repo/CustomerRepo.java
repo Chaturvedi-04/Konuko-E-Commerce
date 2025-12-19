@@ -1,4 +1,4 @@
-package com.alpha.konuko.repository;
+package com.alpha.konuko.repo;
 
 import java.util.Optional;
 

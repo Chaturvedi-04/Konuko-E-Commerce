@@ -1,4 +1,7 @@
 package com.alpha.konuko.controller;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,16 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alpha.konuko.ResponseStructure;
 import com.alpha.konuko.dto.AdminDTO;
 import com.alpha.konuko.dto.CarrierDTO;
+import com.alpha.konuko.dto.SaveProductDTO;
 import com.alpha.konuko.entity.Address;
 import com.alpha.konuko.entity.Admin;
 import com.alpha.konuko.entity.Carrier;
+import com.alpha.konuko.entity.Product;
 import com.alpha.konuko.exception.AdminNotFoundException;
 import com.alpha.konuko.service.AdminService;
 import com.alpha.konuko.service.CarrierService;
+import com.alpha.konuko.service.ProductService;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+	
+	@Autowired
+	private ProductService ps;
 	
 	@Autowired
 	private AdminService as;
@@ -37,9 +46,21 @@ public class AdminController {
 	}
 	
 	@PostMapping("/addnewAddress")
-	public ResponseEntity<ResponseStructure<Admin>> addnewAddress(@RequestBody Address address,@RequestParam long adminmobileno)
+	public ResponseEntity<ResponseStructure<Admin>> addnewAddress(@RequestBody Address address,@RequestParam long mobileno) throws AdminNotFoundException
 	{
-		return as.addnewAddress(address,adminmobileno);
+		return as.addnewAddress(address,mobileno);
+	}
+	
+	@PutMapping("updateAdmin/deleteAddress")
+	public ResponseEntity<ResponseStructure<String>> deleteAddress(@RequestParam long mobileno,@RequestParam int addressid) throws AdminNotFoundException
+	{
+		return as.deleteAddress(mobileno,addressid);
+	}
+	
+	@DeleteMapping("/deleteAdmin")
+	public ResponseEntity<ResponseStructure<Admin>> deleteAdmin(@RequestParam long mobileno) throws AdminNotFoundException
+	{
+		return as.deleteAdmin(mobileno);
 	}
 	
 	@PostMapping("/saveCarrier")
@@ -53,16 +74,28 @@ public class AdminController {
 	{
 		return cs.findCarrier(mobileno);
 	}
-	@PutMapping("updateAdmin/deleteAddress")
-	public ResponseEntity<ResponseStructure<String>> deleteAddress(@RequestParam long mobileno,@RequestParam int addressid) throws AdminNotFoundException
+	
+	@DeleteMapping("/deleteCarrier")
+	public ResponseEntity<ResponseStructure<String>> deleteCarrier(@RequestParam long mobileno)
 	{
-		return as.deleteAddress(mobileno,addressid);
+		return cs.deleteCarrier(mobileno);
 	}
 	
-	@DeleteMapping("/deleteAdmin")
-	public ResponseEntity<ResponseStructure<Admin>> deleteAdmin(@RequestParam long mobileno) throws AdminNotFoundException
+	@PostMapping("/addnewProduct")
+	public ResponseEntity<ResponseStructure<Product>> addnewProduct(@RequestBody SaveProductDTO spdto)
 	{
-		return as.deleteAdmin(mobileno);
+		return ps.addnewProduct(spdto);
 	}
 	
+	@PostMapping("/findallProducts")
+	public ResponseEntity<ResponseStructure<List<Product>>> findallProducts()
+	{
+		return ps.findallProducts();
+	}
+	
+	@PostMapping("/updateProductavailabilityStatus")
+	public ResponseEntity<ResponseStructure<Product>> updateProductavailabilityStatus(@RequestParam int id,@RequestParam String status)
+	{
+		return ps.updateProductavailabilityStatus(id,status);
+	}
 }

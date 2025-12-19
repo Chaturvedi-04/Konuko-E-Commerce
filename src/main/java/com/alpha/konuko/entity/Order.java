@@ -1,41 +1,56 @@
+
 package com.alpha.konuko.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@ManyToMany
+	@JoinTable(
+	    name = "orders_purchaselist",
+	    joinColumns = @JoinColumn(name = "order_id"),
+	    inverseJoinColumns = @JoinColumn(name = "purchaselist_id")
+	)
+	private List<Product> purchaseLists;
 	@OneToOne
 	private Customer customer;
 	@OneToOne
 	private Carrier carrier;
-	private String orderStatus;
-	private String date;
+	private String orderstatus="PENDING";
+	private LocalDate date;
 	@OneToOne
-	private Address pickupLocation;
-	@OneToOne 
-	private Address deliveryLocation;
-	private String expectedDeliverDate;
-	private double totalPrice;
-	@OneToMany
-	List<Product> purchaseList;
+	private Address pickuploc;
+	@OneToOne
+	private Address deliveryloc;
+	private LocalDate expecteddeliverydate;
+	private double totalprice;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public List<Product> getPurchaseLists() {
+		return purchaseLists;
+	}
+	public void setPurchaseLists(List<Product> purchaseLists) {
+		this.purchaseLists = purchaseLists;
 	}
 	public Customer getCustomer() {
 		return customer;
@@ -49,70 +64,64 @@ public class Order {
 	public void setCarrier(Carrier carrier) {
 		this.carrier = carrier;
 	}
-	public String getOrderStatus() {
-		return orderStatus;
+	public String getOrderstatus() {
+		return orderstatus;
 	}
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setOrderstatus(String orderstatus) {
+		this.orderstatus = orderstatus;
 	}
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public Address getPickupLocation() {
-		return pickupLocation;
+	public Address getPickuploc() {
+		return pickuploc;
 	}
-	public void setPickupLocation(Address pickupLocation) {
-		this.pickupLocation = pickupLocation;
+	public void setPickuploc(Address pickuploc) {
+		this.pickuploc = pickuploc;
 	}
-	public Address getDeliveryLocation() {
-		return deliveryLocation;
+	public Address getDeliveryloc() {
+		return deliveryloc;
 	}
-	public void setDeliveryLocation(Address deliveryLocation) {
-		this.deliveryLocation = deliveryLocation;
+	public void setDeliveryloc(Address deliveryloc) {
+		this.deliveryloc = deliveryloc;
 	}
-	public String getExpectedDeliverDate() {
-		return expectedDeliverDate;
+	public LocalDate getExpecteddeliverydate() {
+		return expecteddeliverydate;
 	}
-	public void setExpectedDeliverDate(String expectedDeliverDate) {
-		this.expectedDeliverDate = expectedDeliverDate;
+	public void setExpecteddeliverydate(LocalDate expecteddeliverydate) {
+		this.expecteddeliverydate = expecteddeliverydate;
 	}
-	public double getTotalPrice() {
-		return totalPrice;
+	public double getTotalprice() {
+		return totalprice;
 	}
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setTotalprice(double totalprice) {
+		this.totalprice = totalprice;
 	}
-	public List<Product> getPurchaseList() {
-		return purchaseList;
-	}
-	public void setPurchaseList(List<Product> purchaseList) {
-		this.purchaseList = purchaseList;
-	}
-	public Order(Customer customer, Carrier carrier, String orderStatus, String date, Address pickupLocation,
-			Address deliveryLocation, String expectedDeliverDate, double totalPrice, List<Product> purchaseList) {
+	public Order(int id, List<Product> purchaseLists, Customer customer, Carrier carrier, String orderstatus,
+			LocalDate date, Address pickuploc, Address deliveryloc, LocalDate expecteddeliverydate, double totalprice) {
 		super();
+		this.id = id;
+		this.purchaseLists = purchaseLists;
 		this.customer = customer;
 		this.carrier = carrier;
-		this.orderStatus = orderStatus;
+		this.orderstatus = orderstatus;
 		this.date = date;
-		this.pickupLocation = pickupLocation;
-		this.deliveryLocation = deliveryLocation;
-		this.expectedDeliverDate = expectedDeliverDate;
-		this.totalPrice = totalPrice;
-		this.purchaseList = purchaseList;
+		this.pickuploc = pickuploc;
+		this.deliveryloc = deliveryloc;
+		this.expecteddeliverydate = expecteddeliverydate;
+		this.totalprice = totalprice;
 	}
 	public Order() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", carrier=" + carrier + ", orderStatus=" + orderStatus
-				+ ", date=" + date + ", pickupLocation=" + pickupLocation + ", deliveryLocation=" + deliveryLocation
-				+ ", expectedDeliverDate=" + expectedDeliverDate + ", totalPrice=" + totalPrice + ", purchaseList="
-				+ purchaseList + "]";
+		return "Order [id=" + id + ", purchaseLists=" + purchaseLists + ", customer=" + customer + ", carrier="
+				+ carrier + ", orderstatus=" + orderstatus + ", date=" + date + ", pickuploc=" + pickuploc
+				+ ", deliveryloc=" + deliveryloc + ", expecteddeliverydate=" + expecteddeliverydate + ", totalprice="
+				+ totalprice + "]";
 	}
-	
 }

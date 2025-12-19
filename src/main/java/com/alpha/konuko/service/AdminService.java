@@ -12,9 +12,8 @@ import com.alpha.konuko.dto.AdminDTO;
 import com.alpha.konuko.entity.Address;
 import com.alpha.konuko.entity.Admin;
 import com.alpha.konuko.exception.AdminNotFoundException;
-import com.alpha.konuko.repository.AddressRepo;
-import com.alpha.konuko.repository.AdminRepo;
-
+import com.alpha.konuko.repo.AddressRepo;
+import com.alpha.konuko.repo.AdminRepo;
 
 @Service
 public class AdminService {
@@ -38,8 +37,8 @@ public class AdminService {
 		return new ResponseEntity<ResponseStructure<Admin>>(rs,HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ResponseStructure<Admin>> addnewAddress(Address address, long adminmobileno) {
-		Admin a = ar.findByMobileno(adminmobileno);
+	public ResponseEntity<ResponseStructure<Admin>> addnewAddress(Address address, long mobileno) throws AdminNotFoundException {
+		Admin a = ar.findByMobileno(mobileno).orElseThrow(()->new AdminNotFoundException());
 		a.getAlist().add(address);
 		adr.save(address);
 		ar.save(a);
@@ -49,13 +48,9 @@ public class AdminService {
 		rs.setData(a);
 		return new ResponseEntity<ResponseStructure<Admin>>(rs,HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<ResponseStructure<String>> deleteAddress(long mobileno, int addressid) throws AdminNotFoundException {
-		Admin a = ar.findByMobileno(mobileno);
-		if(a==null)
-		{
-			throw new AdminNotFoundException();
-		}
+		Admin a = ar.findByMobileno(mobileno).orElseThrow(()-> new AdminNotFoundException());
 		List<Address> adlist = a.getAlist();
 		Address a1=new Address();
 		for(Address ad: adlist)
@@ -76,11 +71,7 @@ public class AdminService {
 	}
 
 	public ResponseEntity<ResponseStructure<Admin>> deleteAdmin(long mobileno) throws AdminNotFoundException {
-		Admin a = ar.findByMobileno(mobileno);
-		if(a==null)
-		{
-			throw new AdminNotFoundException();
-		}
+		Admin a = ar.findByMobileno(mobileno).orElseThrow(()-> new AdminNotFoundException());
 		ar.delete(a);
 		ResponseStructure<Admin> rs = new ResponseStructure<Admin>();
 		rs.setStatuscode(HttpStatus.OK.value());

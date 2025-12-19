@@ -2,12 +2,12 @@ package com.alpha.konuko.dto;
 
 import com.alpha.konuko.entity.Address;
 
-public class CustomerDTO {
+public class RegCustomerDTO {
 	
 	private String name;
 	private long mobileno;
 	private String mail;
-	private Address address;
+	private Address add;
 	public String getName() {
 		return name;
 	}
@@ -26,25 +26,24 @@ public class CustomerDTO {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public Address getAddress() {
-		return address;
+	public Address getAdd() {
+		return add;
 	}
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAdd(Address add) {
+		this.add = add;
 	}
-	public CustomerDTO(String name, long mobileno, String mail, Address address) {
+	public RegCustomerDTO(String name, long mobileno, String mail, Address add) {
 		super();
 		this.name = name;
 		this.mobileno = mobileno;
 		this.mail = mail;
-		this.address = address;
+		this.add = add;
 	}
-	public CustomerDTO() {
+	public RegCustomerDTO() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "CustomerDTO [name=" + name + ", mobileno=" + mobileno + ", mail=" + mail + ", address=" + address + "]";
+		return "RegCustomerDTO [name=" + name + ", mobileno=" + mobileno + ", mail=" + mail + ", add=" + add + "]";
 	}
-
 }

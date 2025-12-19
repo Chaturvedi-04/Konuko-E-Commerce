@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alpha.konuko.ResponseStructure;
-import com.alpha.konuko.dto.CustomerDTO;
+import com.alpha.konuko.dto.RegCustomerDTO;
 import com.alpha.konuko.entity.Address;
 import com.alpha.konuko.entity.Customer;
+import com.alpha.konuko.entity.Order;
 import com.alpha.konuko.entity.Product;
 import com.alpha.konuko.service.CustomerService;
 
@@ -27,14 +29,15 @@ public class CustomerController {
 	private CustomerService cs;
 	
 	@PostMapping("/registerCustomer")
-	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(@RequestBody CustomerDTO cdto)
+	public ResponseEntity<ResponseStructure<Customer>> registerCustomer(@RequestBody RegCustomerDTO rdto)
 	{
-		return cs.registerCustomer(cdto);
+		return cs.registerCustomer(rdto);
 	}
+	
 	@PostMapping("/addaddress")
-	public ResponseEntity<ResponseStructure<Address>> addaddress(@RequestParam long mobileno,@RequestBody Address address)
+	public ResponseEntity<ResponseStructure<Address>> addaddress(@RequestParam long mobileno,@RequestBody Address add)
 	{
-		return cs.addaddress(mobileno,address);
+		return cs.addaddress(mobileno,add);
 	}
 	
 	@DeleteMapping("/deleteaddress")
@@ -44,14 +47,32 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/seeallavailableproducts")
-	public ResponseEntity<ResponseStructure<List<Product>>> seeallAvailableProducts()
+	public ResponseEntity<ResponseStructure<List<Product>>> seeallavailableproducts()
 	{
-		return cs.seeallAvailableProducts();
+		return cs.seeallavailableproducts();
 	}
-
-	@PostMapping("/addproductstoCart")
-	public ResponseEntity<ResponseStructure<Product>> addproductstoCart(@RequestParam long mobileno, @RequestParam int prodid)
+	
+	@PostMapping("/addproducttocart")
+	public ResponseEntity<ResponseStructure<Product>> addproducttocart(@RequestParam long mobileno,@RequestParam int prodid)
 	{
-		return addproductstoCart(mobileno,prodid);
+		return cs.addproducttocart(mobileno,prodid);
+	}
+	
+	@GetMapping("/seecart")
+	public ResponseEntity<ResponseStructure<List<Product>>> seecart(@RequestParam long mobileno)
+	{
+		return cs.seecart(mobileno);
+	}
+	
+	@PatchMapping("/removeproductfromcart")
+	public ResponseEntity<ResponseStructure<List<Product>>> removeproductfromcart(@RequestParam long mobileno,@RequestParam int prodid)
+	{
+		return cs.removeproductfromcart(mobileno,prodid);
+	}
+	
+	@PostMapping("/placeorder")
+	public ResponseEntity<ResponseStructure<Order>> placeorder(@RequestParam long mobileno,@RequestParam int deliveryaddid)
+	{
+		return cs.placeorder(mobileno,deliveryaddid);
 	}
 }

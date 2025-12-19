@@ -3,6 +3,8 @@ package com.alpha.konuko.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +13,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Customer {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -19,11 +21,14 @@ public class Customer {
 	private long mobileno;
 	private String mail;
 	@OneToMany
-	List<Address> addressesList = new ArrayList<Address>();
+	@JsonIgnore
+	private List<Address> alist=new ArrayList<Address>();
 	@OneToMany
-	List<Order> orderList;
+	@JsonIgnore
+	private List<Order> olist;
 	@OneToMany
-	List<Product> cart;
+	@JsonIgnore
+	private List<Product> cart=new ArrayList<Product>();
 	public int getId() {
 		return id;
 	}
@@ -48,32 +53,32 @@ public class Customer {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public List<Address> getAddressesList() {
-		return addressesList;
+	public List<Address> getAlist() {
+		return alist;
 	}
-	public void setAddressesList(List<Address> addressesList) {
-		this.addressesList = addressesList;
+	public void setAlist(List<Address> alist) {
+		this.alist = alist;
 	}
-	public List<Order> getOrderList() {
-		return orderList;
+	public List<Order> getOlist() {
+		return olist;
 	}
-	public void setOrderList(List<Order> orderList) {
-		this.orderList = orderList;
+	public void setOlist(List<Order> olist) {
+		this.olist = olist;
 	}
 	public List<Product> getCart() {
 		return cart;
 	}
-	public void setProductList(List<Product> cart) {
+	public void setCart(List<Product> cart) {
 		this.cart = cart;
 	}
-	public Customer(String name, long mobileno, String mail, List<Address> addressesList, List<Order> orderList,
+	public Customer(String name, long mobileno, String mail, List<Address> alist, List<Order> olist,
 			List<Product> cart) {
 		super();
 		this.name = name;
 		this.mobileno = mobileno;
 		this.mail = mail;
-		this.addressesList = addressesList;
-		this.orderList = orderList;
+		this.alist = alist;
+		this.olist = olist;
 		this.cart = cart;
 	}
 	public Customer() {
@@ -81,9 +86,7 @@ public class Customer {
 	}
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", name=" + name + ", mobileno=" + mobileno + ", mail=" + mail
-				+ ", addressesList=" + addressesList + ", orderList=" + orderList + ", cart=" + cart
-				+ "]";
+		return "Customer [id=" + id + ", name=" + name + ", mobileno=" + mobileno + ", mail=" + mail + ", alist="
+				+ alist + ", olist=" + olist + ", cart=" + cart + "]";
 	}
-	
 }

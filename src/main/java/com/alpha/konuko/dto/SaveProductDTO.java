@@ -1,29 +1,13 @@
-package com.alpha.konuko.entity;
+package com.alpha.konuko.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Product {
+public class SaveProductDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
 	private String name;
 	private int quantity;
 	private String category;
 	private double priceperunit;
 	private String brandname;
 	private String description;
-	private String availabilitystatus;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -60,14 +44,8 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getAvailabilitystatus() {
-		return availabilitystatus;
-	}
-	public void setAvailabilitystatus(String availabilitystatus) {
-		this.availabilitystatus = availabilitystatus;
-	}
-	public Product(String name, int quantity, String category, double priceperunit, String brandname,
-			String description, String availabilitystatus) {
+	public SaveProductDTO(String name, int quantity, String category, double priceperunit, String brandname,
+			String description) {
 		super();
 		this.name = name;
 		this.quantity = quantity;
@@ -75,15 +53,13 @@ public class Product {
 		this.priceperunit = priceperunit;
 		this.brandname = brandname;
 		this.description = description;
-		this.availabilitystatus = availabilitystatus;
 	}
-	public Product() {
+	public SaveProductDTO() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", quantity=" + quantity + ", category=" + category
-				+ ", priceperunit=" + priceperunit + ", brandname=" + brandname + ", description=" + description
-				+ ", availabilitystatus=" + availabilitystatus + "]";
+		return "SaveProductDTO [name=" + name + ", quantity=" + quantity + ", category=" + category + ", priceperunit="
+				+ priceperunit + ", brandname=" + brandname + ", description=" + description + "]";
 	}
 }

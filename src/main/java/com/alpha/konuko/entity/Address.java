@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Address {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -15,29 +15,9 @@ public class Address {
 	private int pincode;
 	private String state;
 	private String country;
-	private String addressDescription;
+	private String addressdescription;
 	private long mobileno;
-	private String addressType;
-	@Override
-	public String toString() {
-		return "Addresses [id=" + id + ", city=" + city + ", pincode=" + pincode + ", state=" + state + ", country="
-				+ country + ", addressDescription=" + addressDescription + ", mobileno=" + mobileno + ", addressType="
-				+ addressType + "]";
-	}
-	public Address(String city, int pincode, String state, String country, String addressDescription, long mobileno,
-			String addressType) {
-		super();
-		this.city = city;
-		this.pincode = pincode;
-		this.state = state;
-		this.country = country;
-		this.addressDescription = addressDescription;
-		this.mobileno = mobileno;
-		this.addressType = addressType;
-	}
-	public Address() {
-		super();
-	}
+	private String addresstype;
 	public int getId() {
 		return id;
 	}
@@ -68,11 +48,11 @@ public class Address {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public String getAddressDescription() {
-		return addressDescription;
+	public String getAddressdescription() {
+		return addressdescription;
 	}
-	public void setAddressDescription(String addressDescription) {
-		this.addressDescription = addressDescription;
+	public void setAddressdescription(String addressdescription) {
+		this.addressdescription = addressdescription;
 	}
 	public long getMobileno() {
 		return mobileno;
@@ -80,12 +60,30 @@ public class Address {
 	public void setMobileno(long mobileno) {
 		this.mobileno = mobileno;
 	}
-	public String getAddressType() {
-		return addressType;
+	public String getAddresstype() {
+		return addresstype;
 	}
-	public void setAddressType(String addressType) {
-		this.addressType = addressType;
+	public void setAddresstype(String addresstype) {
+		this.addresstype = addresstype;
 	}
-	
-
+	public Address(String city, int pincode, String state, String country, String addressdescription,
+			long mobileno, String addresstype) {
+		super();
+		this.city = city;
+		this.pincode = pincode;
+		this.state = state;
+		this.country = country;
+		this.addressdescription = addressdescription;
+		this.mobileno = mobileno;
+		this.addresstype = addresstype;
+	}
+	public Address() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", city=" + city + ", pincode=" + pincode + ", state=" + state + ", country="
+				+ country + ", addressdescription=" + addressdescription + ", mobileno=" + mobileno + ", addresstype="
+				+ addresstype + "]";
+	}
 }
